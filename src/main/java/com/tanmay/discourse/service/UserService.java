@@ -1,25 +1,14 @@
 package com.tanmay.discourse.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.http.ResponseEntity;
 
 import com.tanmay.discourse.model.User;
-import com.tanmay.discourse.repository.UserRepository;
+import com.tanmay.discourse.model.UserResponse;
 
-@Service
-public class UserService {
+public interface UserService {
 	
-	@Autowired
-	private UserRepository userRepository;
-
-	public User loginUser(User user) {
-		User foundUser = userRepository.findByUsername(user.getUsername());
-		
-		if (null != foundUser) {
-			return foundUser;
-		} else {
-			return null;
-		}
-	}
+	public User loginUser(User user);
+	
+	public ResponseEntity<UserResponse> registerUser(User user);
 
 }
