@@ -22,7 +22,7 @@ public class ImageController {
 	private ImageService imageService;
 
 	@PostMapping("/upload")
-	public String uploadImage(@RequestParam String title, @RequestParam MultipartFile image) throws IOException {
+	public String uploadImage(@RequestParam("title") String title, @RequestParam("image") MultipartFile image) throws IOException {
 		
 		return imageService.uploadImage(title, image);
 	}

@@ -10,6 +10,7 @@ public class User {
 	private String password;
 	private String email;
 	private String name;
+	private String imageId;
 	
 	public User() {
 		super();
@@ -50,6 +51,12 @@ public class User {
 	}
 	public void set_id(String _id) {
 		this._id = _id;
+	}
+	public String getImageId() {
+		return imageId;
+	}
+	public void setImageId(String imageId) {
+		this.imageId = imageId;
 	}
 
 }
