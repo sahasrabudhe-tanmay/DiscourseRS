@@ -32,5 +32,20 @@ public class PostController {
 	public ResponseEntity<PostResponse> findPostById(@PathVariable String id) {
 		return postService.findPostById(id);
 	}
+	
+	@GetMapping(path = "/user/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PostResponse> findAllPostsByUsername(@PathVariable String username) {
+		return postService.findAllPostsByUsername(username);
+	}
+	
+	@GetMapping(path = "/like/id/{id}/user/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PostResponse> likePost(@PathVariable String id, @PathVariable String username) {
+		return postService.likePost(id, username);
+	}
+	
+	@GetMapping(path = "/dislike/id/{id}/user/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PostResponse> dislikePost(@PathVariable String id, @PathVariable String username) {
+		return postService.dislikePost(id, username);
+	}
 
 }
