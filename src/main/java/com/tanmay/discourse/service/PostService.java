@@ -9,6 +9,6 @@ public interface PostService {
 	
 	public ResponseEntity<PostResponse> createPost(Post post);
 	public ResponseEntity<PostResponse> findPostById(String id);
-//	public ResponseEntity<PostResponse> findAllPostsByUsername(String username);
+	public ResponseEntity<PostResponse> findAllPostsByUsername(String username);
 
 }

@@ -59,21 +59,21 @@ public class PostServiceImpl implements PostService {
 		return ResponseEntity.ok(postResponse);
 	}
 
-//	@Override
-//	public ResponseEntity<PostResponse> findAllPostsByUsername(String username) {
-//		PostResponse postResponse = new PostResponse();
-//		List<Post> posts = postRepository.findAllPostsByUsername(username);
-//		
-//		if(null == posts) {
-//			List<String> messages = new ArrayList<String>();
-//			messages.add("Could not find any posts for given user");
-//			postResponse.setResponseStatus(CommonResponseUtil.buildFailureResponseStatus(messages));
-//		} else {
-//			postResponse.setResponseStatus(CommonResponseUtil.buildSuccessResponseStatus());
-//			postResponse.setPosts(posts);
-//		}
-//		
-//		return ResponseEntity.ok(postResponse);
-//	}
+	@Override
+	public ResponseEntity<PostResponse> findAllPostsByUsername(String username) {
+		PostResponse postResponse = new PostResponse();
+		List<Post> posts = postRepository.findAllPostsByPostedBy(username);
+		
+		if(null == posts) {
+			List<String> messages = new ArrayList<String>();
+			messages.add("Could not find any posts for given user");
+			postResponse.setResponseStatus(CommonResponseUtil.buildFailureResponseStatus(messages));
+		} else {
+			postResponse.setResponseStatus(CommonResponseUtil.buildSuccessResponseStatus());
+			postResponse.setPosts(posts);
+		}
+		
+		return ResponseEntity.ok(postResponse);
+	}
 
 }

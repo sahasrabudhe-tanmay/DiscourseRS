@@ -32,5 +32,10 @@ public class PostController {
 	public ResponseEntity<PostResponse> findPostById(@PathVariable String id) {
 		return postService.findPostById(id);
 	}
+	
+	@GetMapping(path = "/user/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PostResponse> findAllPostsByUsername(@PathVariable String username) {
+		return postService.findAllPostsByUsername(username);
+	}
 
 }
