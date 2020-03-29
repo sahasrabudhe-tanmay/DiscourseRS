@@ -4,6 +4,7 @@ public class UserResponse {
 	
 	private ResponseStatus responseStatus;
 	private User user;
+	private String token;
 	
 	public UserResponse() {
 		super();
@@ -21,6 +22,12 @@ public class UserResponse {
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 }

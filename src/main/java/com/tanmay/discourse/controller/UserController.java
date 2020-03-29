@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tanmay.discourse.helper.AuthenticationHelper;
 import com.tanmay.discourse.model.ResponseStatus;
 import com.tanmay.discourse.model.User;
 import com.tanmay.discourse.model.UserResponse;
@@ -28,7 +29,7 @@ public class UserController {
 	public ResponseEntity<UserResponse> loginUser(@RequestBody User user) {
 		User loginUser = userService.loginUser(user);
 		
-		return UserResponseUtil.buildUserResponse(loginUser, user);
+		return UserResponseUtil.buildUserResponse(loginUser, user, AuthenticationHelper.createSignedJWT(loginUser));
 	}
 	
 	@PostMapping("/register")
