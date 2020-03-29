@@ -17,7 +17,7 @@ import com.tanmay.discourse.service.PostService;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path = "/post")
+@RequestMapping(path = "/discourse-rs/post")
 public class PostController {
 	
 	@Autowired
@@ -31,6 +31,11 @@ public class PostController {
 	@GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PostResponse> findPostById(@PathVariable String id) {
 		return postService.findPostById(id);
+	}
+	
+	@GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PostResponse> findAllPosts() {
+		return postService.findAllPosts();
 	}
 	
 	@GetMapping(path = "/user/{username}", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Post {
 	
 	@Id
-	private String _id;
+	private String id;
 	private String title;
 	private String description;
 	private Image image;
@@ -20,11 +20,11 @@ public class Post {
 	private BigDecimal dislikes;
 	private List<String> dislikedBy;
 	
-	public String get_id() {
-		return _id;
+	public String getId() {
+		return id;
 	}
-	public void set_id(String _id) {
-		this._id = _id;
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getTitle() {
 		return title;

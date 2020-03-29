@@ -151,4 +151,20 @@ public class PostServiceImpl implements PostService {
 		return ResponseEntity.ok(postResponse);
 	}
 
+	@Override
+	public ResponseEntity<PostResponse> findAllPosts() {
+		PostResponse postResponse = new PostResponse();
+		List<Post> posts = postRepository.findAll();
+		if (null == posts || posts.isEmpty()) {
+			List<String> messages = new ArrayList<String>();
+			messages.add("Could not find any posts at the given time");
+			postResponse.setResponseStatus(CommonResponseUtil.buildFailureResponseStatus(messages));
+		} else {
+			postResponse.setPosts(posts);
+			postResponse.setResponseStatus(CommonResponseUtil.buildSuccessResponseStatus());
+		}
+		
+		return ResponseEntity.ok(postResponse);
+	}
+
 }
