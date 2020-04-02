@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.tanmay.discourse.helper.AuthenticationHelper;
 import com.tanmay.discourse.model.ResponseStatus;
 import com.tanmay.discourse.model.User;
 import com.tanmay.discourse.model.UserResponse;
@@ -34,7 +35,7 @@ public class UserServiceImpl implements UserService {
 		ResponseStatus responseStatus = checkUsernameAvailability(user.getUsername()).getBody();
 		
 		if ("SUCCESS".equals(responseStatus.getStatus())) {
-			return UserResponseUtil.buildRegisterResponse(userRepository.save(user));
+			return UserResponseUtil.buildRegisterResponse(userRepository.save(user), AuthenticationHelper.createSignedJWT(user));
 		} else {
 			UserResponse userResponse = new UserResponse();
 			userResponse.setResponseStatus(responseStatus);

@@ -12,5 +12,6 @@ public interface PostService {
 	public ResponseEntity<PostResponse> findAllPostsByUsername(String username);
 	public ResponseEntity<PostResponse> likePost(String id, String username);
 	public ResponseEntity<PostResponse> dislikePost(String id, String username);
+	public ResponseEntity<PostResponse> findAllPosts();
 
 }

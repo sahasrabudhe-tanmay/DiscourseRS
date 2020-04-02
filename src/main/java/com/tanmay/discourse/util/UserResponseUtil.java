@@ -7,7 +7,7 @@ import com.tanmay.discourse.model.UserResponse;
 
 public class UserResponseUtil {
 
-	public static ResponseEntity<UserResponse> buildUserResponse(User loginUser, User user) {
+	public static ResponseEntity<UserResponse> buildUserResponse(User loginUser, User user, String token) {
 		UserResponse userResponse = new UserResponse();
 
 		if (null == loginUser) {
@@ -25,12 +25,13 @@ public class UserResponseUtil {
 		} else {
 			userResponse.getResponseStatus().setStatus("SUCCESS");
 			userResponse.setUser(loginUser);
+			userResponse.setToken(token);
 
 			return ResponseEntity.ok(userResponse);
 		}
 	}
 	
-	public static ResponseEntity<UserResponse> buildRegisterResponse(User user) {
+	public static ResponseEntity<UserResponse> buildRegisterResponse(User user, String token) {
 		UserResponse userResponse = new UserResponse();
 		
 		if (null == user) {
@@ -42,6 +43,7 @@ public class UserResponseUtil {
 		} else {
 			userResponse.getResponseStatus().setStatus("SUCCESS");
 			userResponse.setUser(user);
+			userResponse.setToken(token);
 
 			return ResponseEntity.ok(userResponse);
 		}
