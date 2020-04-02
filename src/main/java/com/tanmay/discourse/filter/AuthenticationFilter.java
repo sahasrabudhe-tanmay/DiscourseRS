@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import com.tanmay.discourse.helper.AuthenticationHelper;
@@ -38,7 +39,7 @@ public class AuthenticationFilter implements Filter {
 			chain.doFilter(req, res);
 		} else {
 			if (null == tokenHeader || !tokenHeader.startsWith("Bearer ")) {
-				throw new ServletException("Missing or invalid Authorization header");
+				sendUnauthorizedResponse(res);
 			}
 			
 			try {
@@ -48,13 +49,17 @@ public class AuthenticationFilter implements Filter {
 				if (AuthenticationHelper.verifyClaims(user, claims)) {
 					chain.doFilter(req, res);
 				} else {
-					throw new ServletException("Invalid Token");
+					sendUnauthorizedResponse(res);
 				}
 				
 			} catch (SignatureException e) {
-				throw new ServletException("Invalid token");
+				sendUnauthorizedResponse(res);
 			}
 		}
+	}
+
+	private void sendUnauthorizedResponse(final HttpServletResponse res) throws IOException {
+		res.sendError(HttpStatus.UNAUTHORIZED.value(), "Missing or invalid credentials");
 	}
 
 }

@@ -29,6 +29,10 @@ dependencies {
    
    // https://mvnrepository.com/artifact/org.springframework.data/spring-data-mongodb
 	compile group: 'org.springframework.data', name: 'spring-data-mongodb', version: '2.2.0.RELEASE'
+	
+	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+	
    
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
