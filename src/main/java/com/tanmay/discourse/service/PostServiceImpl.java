@@ -131,13 +131,13 @@ public class PostServiceImpl implements PostService {
 				messages.add("Creator of the post cannot like it");
 				postResponse.setResponseStatus(CommonResponseUtil.buildFailureResponseStatus(messages));
 			} else {
-				if (!post.getLikedBy().isEmpty() && !post.getLikedBy().contains(username)) {
-					post.getDislikedBy().remove(username);
-					post.setDislikes(post.getDislikes().subtract(BigDecimal.ONE));
+				if (!post.getLikedBy().isEmpty() && post.getLikedBy().contains(username)) {
+					post.getLikedBy().remove(username);
+					post.setLikes(post.getLikes().subtract(BigDecimal.ONE));
 				}
-				if (post.getDislikedBy().contains(username)) {
-					post.getLikedBy().add(username);
-					post.setLikes(post.getLikes().add(BigDecimal.ONE));
+				if (!post.getDislikedBy().contains(username)) {
+					post.getDislikedBy().add(username);
+					post.setDislikes(post.getDislikes().add(BigDecimal.ONE));
 				}
 				postRepository.save(post);
 				postResponse.setResponseStatus(CommonResponseUtil.buildSuccessResponseStatus());
@@ -164,6 +164,41 @@ public class PostServiceImpl implements PostService {
 			postResponse.setResponseStatus(CommonResponseUtil.buildSuccessResponseStatus());
 		}
 		
+		return ResponseEntity.ok(postResponse);
+	}
+
+	@Override
+	public ResponseEntity<PostResponse> clearLikesForPost(String id, String username) {
+		PostResponse postResponse = new PostResponse();
+		Optional<Post> postOptional = postRepository.findById(id);
+		if (postOptional.isPresent()) {
+			Post post = postOptional.get();
+			if (null == userRepository.findByUsername(username)) {
+				List<String> messages = new ArrayList<String>();
+				messages.add("No such user exits");
+				postResponse.setResponseStatus(CommonResponseUtil.buildFailureResponseStatus(messages));
+			} else if (username.equals(post.getPostedBy())) {
+				List<String> messages = new ArrayList<String>();
+				messages.add("Creator of the post cannot like it");
+				postResponse.setResponseStatus(CommonResponseUtil.buildFailureResponseStatus(messages));
+			} else {
+				if (!post.getLikedBy().isEmpty() && post.getLikedBy().contains(username)) {
+					post.getLikedBy().remove(username);
+					post.setLikes(post.getDislikes().subtract(BigDecimal.ONE));
+				}
+				if (!post.getDislikedBy().isEmpty() && post.getDislikedBy().contains(username)) {
+					post.getDislikedBy().remove(username);
+					post.setDislikes(post.getDislikes().subtract(BigDecimal.ONE));
+				}
+				postRepository.save(post);
+				postResponse.setResponseStatus(CommonResponseUtil.buildSuccessResponseStatus());
+			}
+		} else {
+			List<String> messages = new ArrayList<String>();
+			messages.add("Could not find any posts for given ID");
+			postResponse.setResponseStatus(CommonResponseUtil.buildFailureResponseStatus(messages));
+		}
+
 		return ResponseEntity.ok(postResponse);
 	}
 
