@@ -52,5 +52,10 @@ public class PostController {
 	public ResponseEntity<PostResponse> dislikePost(@PathVariable String id, @PathVariable String username) {
 		return postService.dislikePost(id, username);
 	}
+	
+	@GetMapping(path = "/clearLikes/id/{id}/user/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PostResponse> clearLikesForPost(@PathVariable String id, @PathVariable String username) {
+		return postService.clearLikesForPost(id, username);
+	}
 
 }
