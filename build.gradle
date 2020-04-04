@@ -33,7 +33,12 @@ dependencies {
 	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
 	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 	
-   
+	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-sleuth
+	compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth', version: '2.2.0.RELEASE'	
+	
+	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-zipkin
+	compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-zipkin', version: '2.2.0.RELEASE'
+	
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
 }
