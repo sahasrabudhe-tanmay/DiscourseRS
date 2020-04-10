@@ -4,11 +4,16 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
+import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.tanmay.discourse.model.Post;
@@ -43,7 +48,7 @@ public class PostServiceImpl implements PostService {
 			messages.add("Could not create post");
 			postResponse.setResponseStatus(CommonResponseUtil.buildFailureResponseStatus(messages));
 		} else {
-			producer.send(new ProducerRecord<String, Post>("DISCOURSE_POST", post.getId(), post));
+			savePost(post);
 			postResponse.setResponseStatus(CommonResponseUtil.buildSuccessResponseStatus());
 			List<Post> posts = new ArrayList<Post>();
 			posts.add(savedPost);
@@ -110,7 +115,7 @@ public class PostServiceImpl implements PostService {
 					post.getLikedBy().add(username);
 					post.setLikes(post.getLikes().add(BigDecimal.ONE));
 				}
-				postRepository.save(post);
+				savePost(post);
 				postResponse.setResponseStatus(CommonResponseUtil.buildSuccessResponseStatus());
 			}
 		} else {
@@ -145,7 +150,7 @@ public class PostServiceImpl implements PostService {
 					post.getDislikedBy().add(username);
 					post.setDislikes(post.getDislikes().add(BigDecimal.ONE));
 				}
-				postRepository.save(post);
+				savePost(post);
 				postResponse.setResponseStatus(CommonResponseUtil.buildSuccessResponseStatus());
 			}
 		} else {
@@ -196,7 +201,7 @@ public class PostServiceImpl implements PostService {
 					post.getDislikedBy().remove(username);
 					post.setDislikes(post.getDislikes().subtract(BigDecimal.ONE));
 				}
-				postRepository.save(post);
+				savePost(post);
 				postResponse.setResponseStatus(CommonResponseUtil.buildSuccessResponseStatus());
 			}
 		} else {
@@ -206,6 +211,18 @@ public class PostServiceImpl implements PostService {
 		}
 
 		return ResponseEntity.ok(postResponse);
+	}
+	
+	private Post savePost(Post post) {
+		producer.send(new ProducerRecord<String, Post>("DISCOURSE_POST", post.getId(), post), new Callback() {
+			
+			@Override
+			public void onCompletion(RecordMetadata metadata, Exception exception) {
+				System.out.println("Record successfully sent to kafka for post with id: " + post.getId());
+			}
+		});
+		
+		return postRepository.save(post);
 	}
 
 }
