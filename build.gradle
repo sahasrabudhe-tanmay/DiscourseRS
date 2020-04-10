@@ -39,6 +39,9 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-zipkin
 	compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-zipkin', version: '2.2.0.RELEASE'
 	
+	// https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
+	compile group: 'org.apache.kafka', name: 'kafka-clients', version: '2.4.1'
+	
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
 }

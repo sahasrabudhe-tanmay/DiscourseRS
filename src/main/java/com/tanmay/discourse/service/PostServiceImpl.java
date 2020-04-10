@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	KafkaProducer<String, Post> producer;
 
 	@Override
 	public ResponseEntity<PostResponse> createPost(Post post) {
@@ -38,6 +43,7 @@ public class PostServiceImpl implements PostService {
 			messages.add("Could not create post");
 			postResponse.setResponseStatus(CommonResponseUtil.buildFailureResponseStatus(messages));
 		} else {
+			producer.send(new ProducerRecord<String, Post>("DISCOURSE_POST", post.getId(), post));
 			postResponse.setResponseStatus(CommonResponseUtil.buildSuccessResponseStatus());
 			List<Post> posts = new ArrayList<Post>();
 			posts.add(savedPost);
