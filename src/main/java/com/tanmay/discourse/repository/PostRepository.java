@@ -10,5 +10,7 @@ import com.tanmay.discourse.model.Post;
 public interface PostRepository extends MongoRepository<Post, String> {
 	
 	public List<Post> findAllPostsByPostedBy(String username);
+	
+	public Post findPostByIdAndPostedByNot(String id, String username);
 
 }
